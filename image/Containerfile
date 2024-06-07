@@ -1,0 +1,24 @@
+FROM docker.io/library/debian@sha256:82f8da149d6d567c74564cccd6f355fb5ade42a958e4cde10a1100eaeb24d42e
+
+ARG DEBIAN_FRONTEND=noninteractive
+ARG TERM=linux
+
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends \
+    curl \
+    less \
+    libnss-systemd \
+    nano \
+    systemd \
+    systemd-container && \
+    rm -rf /var/lib/apt/lists/*
+
+# disable root login (should be disabled by default, just to be sure...)
+RUN passwd -l root
+
+WORKDIR /
+
+EXPOSE 8000
+
+ENTRYPOINT ["/lib/systemd/systemd"]
