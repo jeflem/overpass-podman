@@ -2,21 +2,50 @@ FROM docker.io/library/debian@sha256:82f8da149d6d567c74564cccd6f355fb5ade42a958e
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TERM=linux
+ARG OSM_3S_VERSION=0.7.62
 
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y --no-install-recommends \
-    curl \
+    bzip2 \
+    expat \
+    g++ \
     less \
+    libexpat1-dev \
     libnss-systemd \
+    make \
     nano \
     systemd \
-    systemd-container && \
+    systemd-container \
+    wget \
+    zlib1g-dev && \
     rm -rf /var/lib/apt/lists/*
+
+# create db user
+RUN useradd -m -U -s /bin/bash osm_user
+
+# install osm-3s
+RUN cd /home/osm_user && \
+    wget http://dev.overpass-api.de/releases/osm-3s_v$OSM_3S_VERSION.tar.gz && \
+    tar -zxvf osm-3s_v$OSM_3S_VERSION.tar.gz && \
+    cd osm-3s_v$OSM_3S_VERSION && \
+    ./configure CXXFLAGS="-O2" && \
+    make install
+RUN cd /home/osm_user && \
+    mv osm-3s_v$OSM_3S_VERSION osm-3s && \
+    chown -R osm_user:osm_user osm-3s && \
+    chmod u+x osm-3s/bin/*.sh
+    
+# copy boot script and create systemd service for boot script
+COPY ./assets/boot.sh /opt/boot.sh
+RUN chmod 700 /opt/boot.sh
+COPY ./assets/boot_script.service /etc/systemd/system/boot_script.service
+RUN systemctl enable boot_script.service
 
 # disable root login (should be disabled by default, just to be sure...)
 RUN passwd -l root
 
+    
 WORKDIR /
 
 EXPOSE 8000

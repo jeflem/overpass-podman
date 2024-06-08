@@ -1,0 +1,11 @@
+[Unit]
+Description=Run script at startup
+
+[Service]
+Type=simple
+ExecStart=/opt/boot.sh
+TimeoutStartSec=0
+StandardOutput=journal+console
+
+[Install]
+WantedBy=default.target
