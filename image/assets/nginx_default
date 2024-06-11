@@ -1,0 +1,31 @@
+server {
+        listen 80 default_server;
+
+        root /var/www/html;
+        server_name _;
+
+        absolute_redirect off;
+
+        location / {
+                index index.php index.html index.htm;
+        }
+
+        location /api/ {
+                alias /usr/local/cgi-bin/;
+                gzip on;
+                gzip_types application/json application/osm3s+xml;
+                
+                # set the minimum length that will be compressed
+                gzip_min_length 1000; # in bytes
+                
+                # Fastcgi socket
+                fastcgi_pass  unix:/var/run/fcgiwrap.socket;
+                
+                # Fastcgi parameters, include the standard ones
+                include /etc/nginx/fastcgi_params;
+                
+                # Adjust non standard fcgi parameters
+                fastcgi_param SCRIPT_FILENAME $request_filename;
+        }
+        
+}

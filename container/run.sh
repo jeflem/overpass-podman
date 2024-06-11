@@ -7,7 +7,7 @@ PORT=8000
 echo "Creating container..."
 
 podman create \
--p $PORT:8000 \
+-p $PORT:80 \
 --cap-add SYS_ADMIN \
 --mount=type=bind,source=runtime/osm_db,destination=/opt/osm_db \
 -m=80g \

@@ -10,12 +10,15 @@ RUN apt-get update && \
     bzip2 \
     ca-certificates \
     expat \
+    fcgiwrap \
     g++ \
+    gzip \
     less \
     libexpat1-dev \
     libnss-systemd \
     make \
     nano \
+    nginx \
     systemd \
     systemd-container \
     wget \
@@ -36,6 +39,9 @@ RUN cd /home/osm_user && \
     mv osm-3s_v$OSM_3S_VERSION osm-3s && \
     chown -R osm_user:osm_user osm-3s && \
     chmod u+x osm-3s/bin/*.sh
+
+# set interval for area updates
+RUN sed -i -e 's/sleep 3/sleep 3600/g' /usr/local/bin/rules_loop.sh
     
 # copy boot scripts and systemd services
 COPY ./assets/boot.sh /opt/boot.sh
@@ -50,7 +56,14 @@ COPY ./assets/fetch_diff.service /etc/systemd/system/fetch_diff.service
 RUN systemctl enable fetch_diff.service
 COPY ./assets/apply_diff.service /etc/systemd/system/apply_diff.service
 RUN systemctl enable apply_diff.service
+COPY ./assets/dispatcher_areas.service /etc/systemd/system/dispatcher_areas.service
+RUN systemctl enable dispatcher_areas.service
+COPY ./assets/areas.service /etc/systemd/system/areas.service
+RUN systemctl enable areas.service
 
+# setup nginx
+COPY ./assets/nginx_default /etc/nginx/sites-available/default
+RUN systemctl enable fcgiwrap
 
 # disable root login (should be disabled by default, just to be sure...)
 RUN passwd -l root

@@ -1,0 +1,13 @@
+[Unit]
+Description=Overpass API update areas daemon
+After=boot_script.service
+Requires=boot_script.service
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c '/usr/local/bin/rules_loop.sh /opt/osm_db'
+TimeoutStartSec=0
+User=osm_user
+
+[Install]
+WantedBy=default.target
