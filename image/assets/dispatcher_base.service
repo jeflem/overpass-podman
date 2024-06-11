@@ -1,0 +1,13 @@
+[Unit]
+Description=Overpass API dispatcher daemon (osm base)
+After=boot_script.service
+Requires=boot_script.service
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c "/usr/local/bin/dispatcher --osm-base --meta --db-dir=/opt/osm_db --rate-limit=0 --allow-duplicate-queries=yes"
+ExecStop=/usr/local/bin/dispatcher --terminate
+TimeoutStartSec=0
+
+[Install]
+WantedBy=default.target

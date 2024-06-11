@@ -2,7 +2,7 @@
 Description=Run script at startup
 
 [Service]
-Type=simple
+Type=oneshot
 ExecStart=/opt/boot.sh
 TimeoutStartSec=0
 StandardOutput=journal+console

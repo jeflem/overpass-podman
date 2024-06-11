@@ -1,0 +1,12 @@
+[Unit]
+Description=Overpass API diff apply daemon
+After=boot_script.service
+Requires=boot_script.service
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c "/usr/local/bin/apply_osc_to_db.sh /opt/osm_diffs/ `cat /opt/osm_db/replicate_id` --meta"
+TimeoutStartSec=0
+
+[Install]
+WantedBy=default.target

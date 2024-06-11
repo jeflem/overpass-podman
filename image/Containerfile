@@ -8,6 +8,7 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y --no-install-recommends \
     bzip2 \
+    ca-certificates \
     expat \
     g++ \
     less \
@@ -36,11 +37,20 @@ RUN cd /home/osm_user && \
     chown -R osm_user:osm_user osm-3s && \
     chmod u+x osm-3s/bin/*.sh
     
-# copy boot script and create systemd service for boot script
+# copy boot scripts and systemd services
 COPY ./assets/boot.sh /opt/boot.sh
 RUN chmod 700 /opt/boot.sh
 COPY ./assets/boot_script.service /etc/systemd/system/boot_script.service
 RUN systemctl enable boot_script.service
+COPY ./assets/dispatcher_base.service /etc/systemd/system/dispatcher_base.service
+RUN systemctl enable dispatcher_base.service
+RUN mkdir /opt/osm_diffs && \
+    chown osm_user:osm_user /opt/osm_diffs
+COPY ./assets/fetch_diff.service /etc/systemd/system/fetch_diff.service
+RUN systemctl enable fetch_diff.service
+COPY ./assets/apply_diff.service /etc/systemd/system/apply_diff.service
+RUN systemctl enable apply_diff.service
+
 
 # disable root login (should be disabled by default, just to be sure...)
 RUN passwd -l root
