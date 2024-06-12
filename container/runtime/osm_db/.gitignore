@@ -1,4 +1,4 @@
 *
 !.gitignore
-!planet_url.template
-!replicate_id.template
+!planet_url
+!replicate_id
