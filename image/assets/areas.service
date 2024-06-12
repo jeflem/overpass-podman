@@ -5,9 +5,10 @@ Requires=boot_script.service
 
 [Service]
 Type=simple
-ExecStart=/bin/bash -c '/usr/local/bin/rules_loop.sh /opt/osm_db'
+ExecStart=/bin/bash -c '/usr/local/bin/rules_loop.sh ../../opt/osm_db'
 TimeoutStartSec=0
 User=osm_user
+WorkingDirectory=/home/osm_user
 
 [Install]
 WantedBy=default.target

@@ -19,6 +19,7 @@ RUN apt-get update && \
     make \
     nano \
     nginx \
+    osmctools \
     systemd \
     systemd-container \
     wget \
