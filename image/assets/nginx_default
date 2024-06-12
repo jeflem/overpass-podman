@@ -1,3 +1,9 @@
+map $http_x_api_key $valid_key {
+        default 0;
+        "apikey1" 1;
+        "apikey2" 1;
+}
+
 server {
         listen 80 default_server;
 
@@ -10,7 +16,11 @@ server {
                 index index.php index.html index.htm;
         }
 
-        location /api/ {
+        location /overpass/api/ {
+                if ($valid_key = 0) {
+                        return 401; # Unauthorized
+                }
+                
                 alias /usr/local/cgi-bin/;
                 gzip on;
                 gzip_types application/json application/osm3s+xml;
