@@ -36,6 +36,8 @@ server {
                 
                 # Adjust non standard fcgi parameters
                 fastcgi_param SCRIPT_FILENAME $request_filename;
+                
+                fastcgi_read_timeout 1200;
         }
         
 }
