@@ -63,3 +63,14 @@ curl -H "X-API-Key: YOUR_API_KEY" \
      -g "https://YOUR_DOMAIN/overpass/api/interpreter?data=area[name=Ettelbruck];node(area)[highway=bus_stop];out;"
 ```
 on some machine connected to your server.
+## Reverse proxy configuration
+Complex queries to Overpass API may result in timeouts (most likely [HTTP error 504](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/504)) if the service is run behind a reverse proxy. You have to tell your reverse proxy, that it should wait long enough.
+
+For [nginx](https://nginx.org) reverse proxies add
+```
+proxy_connect_timeout 1200;
+proxy_send_timeout 1200;
+proxy_read_timeout 1200;
+send_timeout 1200;
+```
+to the `location` block.
