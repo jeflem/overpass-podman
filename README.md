@@ -64,7 +64,9 @@ curl -H "X-API-Key: YOUR_API_KEY" \
 ```
 on some machine connected to your server.
 ## Reverse proxy configuration
-Complex queries to Overpass API may result in timeouts (most likely [HTTP error 504](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/504)) if the service is run behind a reverse proxy. You have to tell your reverse proxy, that it should wait long enough.
+Complex queries to Overpass API may result in different kindes of errors if the service is run behind a reverse proxy.
+### HTTP error 504
+[HTTP error 504](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/504) is a timeout issue. The reverse proxy did not get an answer from the webserver passing requests to Overpass. You have to tell your reverse proxy, that it should wait long enough.
 
 For [nginx](https://nginx.org) reverse proxies add
 ```
@@ -73,4 +75,12 @@ proxy_send_timeout 1200;
 proxy_read_timeout 1200;
 send_timeout 1200;
 ```
-to the `location` block.
+to the `location` block in the server's config file.
+### HTTP error 413
+With [HTTP error 413](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/413) the reverse proxy complains about large responses from Overpass and refuses to pass the response on to the client. You have to tell your reverse proxy that large responses are okay.
+
+For [nginx](https://nginx.org) reverse proxies add
+```
+client_max_body_size 500M;
+```
+to the `server` block in the server's config file.
