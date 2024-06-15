@@ -12,6 +12,8 @@ server {
 
         absolute_redirect off;
 
+	client_max_body_size 500M;
+
         location / {
                 index index.php index.html index.htm;
         }
