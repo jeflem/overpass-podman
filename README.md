@@ -27,7 +27,21 @@ In `overpass-podman/container/run.sh` edit the `-m=` line to set the maximum amo
 ### Data source
 At first start of the container the data base is created automatically if it does not exist already. The data base is stored in `overpass-podman/container/runtime/osm_db` and thus even persists if the container gets removed.
 
-In `overpass-podman/container/runtime/osm_db` rename files `planet_url.template` and `replicate_id.template` to `planet_url` and `replicate_id`. Set the URL in `planet_url` to some `*.osm.pbf` file (no leading/trailing spaces, no line breaks!). Then have a look at [OSM replication data](https://planet.openstreetmap.org/replication/hour) and find the newest replication ID older than your `*.osm.pbf` file. Write this replication ID to the `replication_id` file (again, no spaces, no line breaks).
+In `overpass-podman/container/runtime/osm_db` rename files `planet_url.template` and `replicate_id.template` to `planet_url` and `replicate_id`.
+
+Set the URL in `planet_url` to some `*.osm.pbf` file (no leading/trailing spaces, no line breaks!). For the whole planet use `https://planet.openstreetmap.org/pbf/planet-latest.osm.pbf`. Now you have to find the timestamp of the files data (it's not the file's last modified date). For this purpose on some machine (not necessarily your server) do the following:
+1. Install [Osmium Tool](https://osmcode.org/osmium-tool). For Debian run `apt install osmium-tool`.
+2. Download the first bytes of your `*.osm.pbf` file if you do not have a local copy:
+```
+curl -r 0-100000 --output first_bytes.osm.pbf -L https://planet.openstreetmap.org/pbf/planet-latest.osm.pbf
+```
+3. Run Osmium Tool to read the files timestamp:
+```
+osmium fileinfo -e first_bytes.osm.pbf
+```
+4. In the output find the value of `osmosis_replication_timestamp`.
+
+Now have a look at [OSM replication data](https://planet.openstreetmap.org/replication/hour) and find the newest replication ID older than your `*.osm.pbf` file's timestamp. Write this replication ID to the `replication_id` file (again, no spaces, no line breaks).
 ### Starting the container
 After setting above configuration options create and start the container:
 ```
