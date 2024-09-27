@@ -2,8 +2,8 @@
 
 timedatectl set-timezone Europe/Berlin
 
-chmod a+rw /opt
-chmod -R a+rw /opt/osm_db
+chmod a+rwX /opt
+chmod -R a+rwX /opt/osm_db
 
 # populate db if no db is available
 cd /home/osm_user
