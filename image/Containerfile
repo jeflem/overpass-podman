@@ -1,8 +1,8 @@
-FROM docker.io/library/debian@sha256:82f8da149d6d567c74564cccd6f355fb5ade42a958e4cde10a1100eaeb24d42e
+FROM docker.io/library/debian@sha256:01a723bf5bfb21b9dda0c9a33e0538106e4d02cce8f557e118dd61259553d598
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TERM=linux
-ARG OSM_3S_VERSION=0.7.62
+ARG OSM_3S_VERSION=0.7.62.8
 
 RUN apt-get update && \
     apt-get upgrade -y && \
@@ -20,6 +20,7 @@ RUN apt-get update && \
     nano \
     nginx \
     osmctools \
+    procps \
     systemd \
     systemd-container \
     wget \
