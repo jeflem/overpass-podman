@@ -6,7 +6,7 @@ Requires=boot_script.service
 [Service]
 Type=simple
 ExecStart=/bin/bash -c "/usr/local/bin/dispatcher --osm-base --meta --db-dir=/opt/osm_db --rate-limit=0 --allow-duplicate-queries=yes"
-ExecStop=/usr/local/bin/dispatcher --terminate
+ExecStop=/usr/local/bin/dispatcher --osm-base --terminate
 TimeoutStartSec=0
 User=osm_user
 

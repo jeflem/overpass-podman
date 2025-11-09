@@ -1,10 +1,11 @@
 [Unit]
 Description=Overpass API diff fetch daemon
-After=boot_script.service
-Requires=boot_script.service
+After=dispatcher_base.service
+Requires=dispatcher_base.service
 
 [Service]
 Type=simple
+ExecStartPre=/bin/sleep 5
 ExecStart=/bin/bash -c '/usr/local/bin/fetch_osc.sh `cat /opt/osm_db/replicate_id` "https://planet.openstreetmap.org/replication/hour/" /opt/osm_diffs'
 TimeoutStartSec=0
 User=osm_user
