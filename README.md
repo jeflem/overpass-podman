@@ -22,8 +22,10 @@ There are shell scripts `run.sh`, `remove.sh`, `shell.sh` in `overpass-podman/co
 Before you start a container some configuration is required.
 ### Port
 In `overpass-podman/container/run.sh` edit the `PORT=` line to set the port the Overpass API is listening on.
+
 ### Memory limits
-In `overpass-podman/container/run.sh` edit the `-m=` line to set the maximum amount of memory the container is allowed to use.
+In `overpass-podman/container/run.sh` uncomment and edit the `Memory=` line to set the maximum amount of memory the container is allowed to use (supported by Podman 5.5.0 and above only).
+
 ### Data source
 At first start of the container the data base is created automatically if it does not exist already. The data base is stored in `overpass-podman/container/runtime/osm_db` and thus even persists if the container gets removed.
 
