@@ -17,11 +17,11 @@ cd overpass-podman/image
 ./build.sh
 ```
 ## Running a container
-There are shell scripts `run.sh`, `remove.sh`, `shell.sh` in `overpass-podman/container` to create and start a container, to stop and remove a container, and to run a root shell inside the container.
+There are shell scripts `config.sh`, `run.sh`, `remove.sh`, `shell.sh` in `overpass-podman/container` to create and start a container, to stop and remove a container, and to run a root shell inside the container.
 
 Before you start a container some configuration is required.
 ### Port
-In `overpass-podman/container/run.sh` edit the `PORT=` line to set the port the Overpass API is listening on.
+In `overpass-podman/container/config.sh` edit the `PORT=` line to set the port the Overpass API is listening on.
 
 ### Memory limits
 In `overpass-podman/container/run.sh` uncomment and edit the `Memory=` line to set the maximum amount of memory the container is allowed to use (supported by Podman 5.5.0 and above only).
@@ -44,6 +44,7 @@ osmium fileinfo -e first_bytes.osm.pbf
 4. In the output find the value of `osmosis_replication_timestamp`.
 
 Now have a look at [OSM replication data](https://planet.openstreetmap.org/replication/hour) and find the newest replication ID older than your `*.osm.pbf` file's timestamp. Write this replication ID to the `replication_id` file (again, no spaces, no line breaks).
+
 ### Starting the container
 After setting above configuration options create and start the container:
 ```
@@ -57,6 +58,7 @@ To see what's happening run a shell inside the container:
 There, type `journalctl` to see the logs. With `journalctl -f` output will be updated automatically. To leave the shell type `exit`.
 
 Populating the data base may take many hours. In a second step area information is created, which again may take several hours.
+
 ### API keys
 The default configuration is that querying the Overpass API requires an API key (default keys are `apikey1` and `apikey2`). API keys are configured in `/etc/nginx/sites-available/default`. In the container's shell run `nano /etc/nginx/sites-available/default` to edit the file. Content starts with
 ```
@@ -79,8 +81,10 @@ curl -H "X-API-Key: YOUR_API_KEY" \
      -g "https://YOUR_DOMAIN/api/interpreter?data=area[name=Ettelbruck];node(area)[highway=bus_stop];out;"
 ```
 on some machine connected to your server.
+
 ## Reverse proxy configuration
 Complex queries to Overpass API may result in different kindes of errors if the service is run behind a reverse proxy.
+
 ### HTTP error 504
 [HTTP error 504](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/504) is a timeout issue. The reverse proxy did not get an answer from the webserver passing requests to Overpass. You have to tell your reverse proxy, that it should wait long enough.
 
@@ -92,6 +96,7 @@ proxy_read_timeout 1200;
 send_timeout 1200;
 ```
 to the `location` block in the server's config file.
+
 ### HTTP error 413
 With [HTTP error 413](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/413) the reverse proxy complains about large responses from Overpass and refuses to pass the response on to the client. You have to tell your reverse proxy that large responses are okay.
 
