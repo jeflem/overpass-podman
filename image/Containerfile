@@ -1,8 +1,8 @@
-FROM docker.io/library/debian@sha256:01a723bf5bfb21b9dda0c9a33e0538106e4d02cce8f557e118dd61259553d598
+FROM docker.io/library/debian@sha256:3615a749858a1cba49b408fb49c37093db813321355a9ab7c1f9f4836341e9db
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TERM=linux
-ARG OSM_3S_VERSION=0.7.62.8
+ARG OSM_3S_VERSION=0.7.62.11
 
 RUN apt-get update && \
     apt-get upgrade -y && \
