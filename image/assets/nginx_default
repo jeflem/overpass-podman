@@ -18,7 +18,7 @@ server {
                 index index.php index.html index.htm;
         }
 
-        location /overpass/api/ {
+        location /api/ {
                 if ($valid_key = 0) {
                         return 401; # Unauthorized
                 }

@@ -76,7 +76,7 @@ openssl rand -hex 16
 To see whether everything works as expected, run
 ```
 curl -H "X-API-Key: YOUR_API_KEY" \
-     -g "https://YOUR_DOMAIN/overpass/api/interpreter?data=area[name=Ettelbruck];node(area)[highway=bus_stop];out;"
+     -g "https://YOUR_DOMAIN/api/interpreter?data=area[name=Ettelbruck];node(area)[highway=bus_stop];out;"
 ```
 on some machine connected to your server.
 ## Reverse proxy configuration
