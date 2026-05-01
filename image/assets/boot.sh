@@ -5,6 +5,9 @@ timedatectl set-timezone Europe/Berlin
 chmod a+rwX /opt
 chmod -R a+rwX /opt/osm_db
 
+# remove dispatcher lock files (else the dispatcher won't start)
+rm /opt/osm_db/osm3s_areas /opt/osm_db/osm3s_osm_base
+
 # populate db if no db is available
 cd /home/osm_user
 if ! test -f /opt/osm_db/nodes.bin; then
