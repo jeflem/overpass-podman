@@ -17,7 +17,7 @@ echo "Mount=type=bind,source=$RUNTIME_DIR/osm_db,destination=/opt/osm_db" >> $UN
 echo "AddCapability=SYS_ADMIN" >> $UNIT_FILE
 echo "" >> $UNIT_FILE
 echo "[Install]" >> $UNIT_FILE
-echo "WantedBy=multi-user.target" >> $UNIT_FILE
+echo "WantedBy=default.target" >> $UNIT_FILE
 
 ln -s $UNIT_FILE $CONTAINER_NAME.container
 
