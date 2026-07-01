@@ -1,11 +1,14 @@
 [Unit]
 Description=Run script at startup
+Before=nginx.service
 
 [Service]
 Type=oneshot
 ExecStart=/opt/boot.sh
 TimeoutStartSec=0
 StandardOutput=journal+console
+EnvironmentFile=/opt/container.env
 
 [Install]
+RequiredBy=nginx.service
 WantedBy=default.target

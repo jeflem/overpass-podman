@@ -1,9 +1,12 @@
 #!/bin/bash
 
-timedatectl set-timezone Europe/Berlin
+timedatectl set-timezone $TZ
 
 chmod a+rwX /opt
 chmod -R a+rwX /opt/osm_db
+
+# write API keys to nginx config
+sed -i "s#OVERPASS_API_KEYS#$OVERPASS_API_KEYS#g" /etc/nginx/sites-available/default
 
 # remove dispatcher lock files (else the dispatcher won't start)
 rm /opt/osm_db/osm3s_areas /opt/osm_db/osm3s_osm_base

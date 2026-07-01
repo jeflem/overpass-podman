@@ -2,8 +2,7 @@
 
 IMAGE_NAME=localhost/overpass
 CONTAINER_NAME=overpass
-PORT=9001
-TIME_ZONE=Europe/Berlin
+PORT=9004
 
 SYSTEMD_PATH=~/.config/containers/systemd
 UNIT_FILE=$SYSTEMD_PATH/$CONTAINER_NAME.container

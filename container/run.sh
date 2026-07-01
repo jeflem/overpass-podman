@@ -11,8 +11,9 @@ echo "[Container]" >> $UNIT_FILE
 echo "Image=$IMAGE_NAME" >> $UNIT_FILE
 echo "ContainerName=$CONTAINER_NAME" >> $UNIT_FILE
 echo "PublishPort=$PORT:80" >> $UNIT_FILE
-echo "Environment=\"TZ=$TIME_ZONE\"" >> $UNIT_FILE
+echo "EnvironmentFile=\"$(pwd)/container.env\"" >> $UNIT_FILE
 echo "Mount=type=bind,source=$RUNTIME_DIR/osm_db,destination=/opt/osm_db" >> $UNIT_FILE
+echo "Mount=type=bind,source=$(pwd)/container.env,destination=/opt/container.env" >> $UNIT_FILE
 #echo "Memory=80g" >> $UNIT_FILE
 echo "AddCapability=SYS_ADMIN" >> $UNIT_FILE
 echo "" >> $UNIT_FILE

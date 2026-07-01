@@ -1,7 +1,6 @@
 map $http_x_api_key $valid_key {
         default 0;
-        "apikey1" 1;
-        "apikey2" 1;
+        OVERPASS_API_KEYS
 }
 
 server {
