@@ -45,6 +45,16 @@ osmium fileinfo -e first_bytes.osm.pbf
 
 Now have a look at [OSM replication data](https://planet.openstreetmap.org/replication/hour) and find the newest replication ID older than your `*.osm.pbf` file's timestamp. Write this replication ID to the `replication_id` file (again, no spaces, no line breaks).
 
+### API keys
+The default configuration is that querying the Overpass API requires an API key (default keys are `apikey1` and `apikey2`). API keys are configured in `container/container.env`. Rename the template file `container/container.env.template` to `container/container.env` and adapt the file's content to your needs. You may also set the time zone here.
+
+You may set as many API keys as you need (for different users or apps). To disable API keys at all, replace `default 0` by `default 1`.
+
+Good API keys may be created with
+```
+openssl rand -hex 16
+```
+
 ### Starting the container
 After setting above configuration options create and start the container:
 ```
@@ -59,21 +69,6 @@ There, type `journalctl` to see the logs. With `journalctl -f` output will be up
 
 Populating the data base may take many hours. In a second step area information is created, which again may take several hours.
 
-### API keys
-The default configuration is that querying the Overpass API requires an API key (default keys are `apikey1` and `apikey2`). API keys are configured in `/etc/nginx/sites-available/default`. In the container's shell run `nano /etc/nginx/sites-available/default` to edit the file. Content starts with
-```
-map $http_x_api_key $valid_key {
-        default 0;
-        "apikey1" 1;
-        "apikey2" 1;
-}
-```
-You may set as many API keys as you need (for different users or apps). To disable API keys at all, replace `default 0` by `default 1`.
-
-Good API keys may be created with
-```
-openssl rand -hex 16
-```
 ## Test
 To see whether everything works as expected, run
 ```
