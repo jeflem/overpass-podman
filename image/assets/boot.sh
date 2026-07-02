@@ -4,6 +4,7 @@ timedatectl set-timezone $TZ
 
 chmod a+rwX /opt
 chmod -R a+rwX /opt/osm_db
+chmod -R a+rwX /opt/osm_diffs
 
 # write API keys to nginx config
 sed -i "s#OVERPASS_API_KEYS#$OVERPASS_API_KEYS#g" /etc/nginx/sites-available/default

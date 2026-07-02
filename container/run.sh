@@ -13,6 +13,7 @@ echo "ContainerName=$CONTAINER_NAME" >> $UNIT_FILE
 echo "PublishPort=$PORT:80" >> $UNIT_FILE
 echo "EnvironmentFile=\"$(pwd)/container.env\"" >> $UNIT_FILE
 echo "Mount=type=bind,source=$RUNTIME_DIR/osm_db,destination=/opt/osm_db" >> $UNIT_FILE
+echo "Mount=type=bind,source=$RUNTIME_DIR/osm_diffs,destination=/opt/osm_diffs" >> $UNIT_FILE
 echo "Mount=type=bind,source=$(pwd)/container.env,destination=/opt/container.env" >> $UNIT_FILE
 #echo "Memory=80g" >> $UNIT_FILE
 echo "AddCapability=SYS_ADMIN" >> $UNIT_FILE
